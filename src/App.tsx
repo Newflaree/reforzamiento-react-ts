@@ -1,9 +1,10 @@
+// Components
+import { Counter } from "./bases/Counter";
 
-function App() {
+const App = () => {
   return (
     <>
-      <h1>React</h1>
-      <hr />
+      <Counter initialValue={ 15 } />
     </>
   );
 }
