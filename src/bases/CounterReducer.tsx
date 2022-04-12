@@ -3,20 +3,38 @@ import { useReducer, useState } from 'react';
 interface CounterState {
   counter: number;
   previous: number;
-  changer: number;
+  changes: number;
 }
 
 const INITIAL_STATE: CounterState = {
-  counter: 0,
-  previous: 0,
-  changer: 0
+  counter: 10,
+  previous: 15,
+  changes: 20
 }
 
-export const CounterReducer = () => {
-  const [ state, dispatch] = useReducer( reducer, INITIAL_STATE )
+type CounterAction = 
+  | { type: 'increaseBy', payload: { value: number }}
+  | { type: 'reset' };
+
+const counterReducer = ( state: CounterState, action: CounterAction ): CounterState => {
+  switch ( action.type ) {
+    case 'reset':
+      return {
+        counter: 0,
+        previous: 0,
+        changes: 0
+      }
+  
+    default:
+      return state;
+  }
+}
+
+export const CounterReducerComponent = () => {
+  const [ { counter }, dispatch ] = useReducer( counterReducer, INITIAL_STATE )
 
   const handleClick = () => {
-    setCounter( prev => prev + 1 );
+    dispatch({ type: 'reset'})
   }
 
   return (
@@ -24,7 +42,7 @@ export const CounterReducer = () => {
       <h1>CounterReducer: { counter }</h1>
 
       <button onClick={ handleClick }>
-        +1
+        Reset
       </button>
     </>
   );
